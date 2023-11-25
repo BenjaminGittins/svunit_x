@@ -24,6 +24,10 @@ package svunit_pkg;
 
   const string svunit_version = { "SVUnit ", `__svunit_stringify(`SVUNIT_VERSION) };
 
+  function void __svunit_fatal(input string str);
+   `__svunit_fatal_d(str)
+  endfunction
+
   `include "svunit_types.svh"
   `include "svunit_string_utils.svh"
   `include "svunit_base.sv"

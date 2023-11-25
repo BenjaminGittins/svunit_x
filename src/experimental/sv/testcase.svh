@@ -1,6 +1,7 @@
 class testcase extends svunit_testcase;
 
-  typedef test::builder array_of_test_builder[];
+  // This needs to be declared as a dynamic array[$] (not a static array[] with a fixed length)
+  typedef test::builder array_of_test_builder[$];
 
 
   local test::builder test_builders[$];

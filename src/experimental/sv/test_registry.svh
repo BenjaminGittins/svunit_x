@@ -1,6 +1,6 @@
 class test_registry;
 
-  typedef testsuite array_of_testsuite[];
+  typedef testsuite array_of_testsuite[$];
 
 
   local testsuite testsuites[string];
@@ -8,7 +8,9 @@ class test_registry;
 
   function void register(test::builder test_builder, string full_name);
     testsuite ts;
-    string name_parts[] = string_utils::split_by_char(".", full_name);
+    
+    // This needs to be declared as a dynamic array[$] (not a static array[] with a fixed length)
+    string name_parts[$] = string_utils::split_by_char(".", full_name);
     string testcase_and_test_name = full_name;
     string testsuite_name = name_parts[0];
 

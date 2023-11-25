@@ -22,8 +22,10 @@
  */
 class filter;
 
-  /* local */ typedef filter_for_single_pattern array_of_filters[];
-  /* local */ typedef string array_of_string[];
+  // These both needs to be declared as a dynamic array[$] (not a static array[] with a fixed length)
+
+  /* local */ typedef filter_for_single_pattern array_of_filters[$];
+  /* local */ typedef string array_of_string[$];
 
   /* local */ typedef struct {
     string positive;
@@ -33,8 +35,8 @@ class filter;
 
   local static filter single_instance;
 
-  local const filter_for_single_pattern positive_subfilters[];
-  local const filter_for_single_pattern negative_subfilters[];
+  local const filter_for_single_pattern positive_subfilters[$];
+  local const filter_for_single_pattern negative_subfilters[$];
 
 
   static function filter get();
@@ -61,25 +63,31 @@ class filter;
   endfunction
 
 
-  local function filter_expression_parts get_filter_expression_parts(string raw_filter);
-    string parts[];
+  local function filter_expression_parts get_filter_expression_parts(input string raw_filter);
+    
+    // This needs to be declared as a dynamic array[$] (not a static array[] with a fixed length
+    string parts[$];
 
     if (raw_filter[0] == "-")
       raw_filter = { "*", raw_filter };
 
     parts = string_utils::split_by_char("-", raw_filter);
-    if (parts.size() > 2)
-      $fatal(0, "Expected at most a single '-' character.");
-
+    if (parts.size() > 2) begin
+      //$fatal(0, "Expected at most a single '-' character.");
+      __svunit_fatal( "Expected at most a single '-' character.");
+    end
     if (parts.size() == 1)
       return '{ parts[0], "" };
     return '{ parts[0], parts[1] };
   endfunction
 
 
-  local function array_of_filters get_subfilters(string raw_filter);
+  local function array_of_filters get_subfilters(input string raw_filter);
+
     filter_for_single_pattern result[$];
-    string patterns[];
+
+    // This needs to be declared as a dynamic array[$] (not a static array[] with a fixed length)
+    string patterns[$];
 
     if (raw_filter == "*") begin
       filter_for_single_pattern filter_that_always_matches = new("*.*");
@@ -89,18 +97,19 @@ class filter;
     patterns = string_utils::split_by_char(":", raw_filter);
     foreach (patterns[i])
       result.push_back(get_subfilter_from_non_trivial_expr(patterns[i]));
+
     return result;
   endfunction
 
 
-  local function filter_for_single_pattern get_subfilter_from_non_trivial_expr(string pattern);
+  local function filter_for_single_pattern get_subfilter_from_non_trivial_expr(input string pattern);
     filter_for_single_pattern result;
     result = new(pattern);
     return result;
   endfunction
 
 
-  function bit is_selected(svunit_testcase tc, string test_name);
+  function bit is_selected(input svunit_testcase tc, input string test_name);
     foreach (negative_subfilters[i])
       if (negative_subfilters[i].is_selected(tc, test_name))
         return 0;

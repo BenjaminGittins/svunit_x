@@ -22,8 +22,9 @@ package junit_xml;
   `include "TestCase.svh"
   `include "TestSuite.svh"
 
-
-  function automatic string to_xml_report_string(TestSuite test_suites[]);
+  // test_suites[] needs to be declared as a dynamic array[$] (not a static array[] with a fixed length)
+  //
+  function automatic string to_xml_report_string(input TestSuite test_suites[$]);
     XmlElement testsuites = new("testsuites");
     foreach (test_suites[i])
       testsuites.add_child(test_suites[i].as_xml_element());

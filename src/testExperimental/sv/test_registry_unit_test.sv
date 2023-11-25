@@ -32,8 +32,8 @@ module test_registry_unit_test;
 
     `SVTEST(single_test_package)
       test_registry tr = new();
-      testsuite testsuites[];
-      testcase testcases[];
+      testsuite testsuites[$];
+      testcase testcases[$];
 
       tr.register(fake_test_builder::new_instance(), "some_test_package.some_test");
 
@@ -48,8 +48,8 @@ module test_registry_unit_test;
 
     `SVTEST(two_tests_under_package__registers_only_one_tc)
       test_registry tr = new();
-      testsuite testsuites[];
-      testcase testcases[];
+      testsuite testsuites[$];
+      testcase testcases[$];
 
       tr.register(fake_test_builder::new_instance(), "some_test_package.some_test");
       tr.register(fake_test_builder::new_instance(), "some_test_package.some_other_test");
@@ -64,9 +64,9 @@ module test_registry_unit_test;
 
     `SVTEST(tests_under_package)
       test_registry tr = new();
-      testsuite testsuites[];
-      testcase testcases[];
-      test::builder test_builders[];
+      testsuite testsuites[$];
+      testcase testcases[$];
+      test::builder test_builders[$];
       test::builder registered_test_builders[2] = '{ default: fake_test_builder::new_instance };
 
       tr.register(registered_test_builders[0], "some_test_package.some_test");
@@ -84,8 +84,8 @@ module test_registry_unit_test;
 
     `SVTEST(two_test_classes_under_package)
       test_registry tr = new();
-      testsuite testsuites[];
-      testcase testcases[];
+      testsuite testsuites[$];
+      testcase testcases[$];
 
       tr.register(fake_test_builder::new_instance(), "some_test_package.some_test_class.some_test");
       tr.register(fake_test_builder::new_instance(), "some_test_package.some_other_test_class.some_test");
@@ -102,8 +102,8 @@ module test_registry_unit_test;
 
     `SVTEST(two_packages_with_test_classes)
       test_registry tr = new();
-      testsuite testsuites[];
-      testcase testcases[];
+      testsuite testsuites[$];
+      testcase testcases[$];
 
       tr.register(fake_test_builder::new_instance(), "some_test_package.some_test_class.some_test");
       tr.register(fake_test_builder::new_instance(), "some_other_test_package.some_test_class.some_test");

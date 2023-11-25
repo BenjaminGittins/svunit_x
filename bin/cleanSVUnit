@@ -44,3 +44,9 @@ unlink "irun.key";
 system("rm -rf csrc");
 unlink "simv";
 system("rm -rf simv.daidir");
+system("rm -rf xsim.dir");
+system("rm xsim*.*");
+system("rm xelab*.*");
+unlink "xvlog.pb";
+unlink "tests.xml";
+unlink "work.testrunner.wdb"

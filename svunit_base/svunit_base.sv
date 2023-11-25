@@ -37,7 +37,7 @@ class svunit_base;
   /*
     Interface
   */
-  extern function new(string name);
+  extern function new(input string name);
   extern function string get_name();
   extern function results_t get_results();
 
@@ -53,7 +53,7 @@ endclass
   Parameters:
     name - instance name of the unit test
 */
-function svunit_base::new(string name);
+function svunit_base::new(input string name);
   this.name = name;
 endfunction
 

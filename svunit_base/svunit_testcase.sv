@@ -49,13 +49,13 @@ class svunit_testcase extends svunit_base;
   /*
     Interface
   */
-  extern function new(string name);
+  extern function new(input string name);
 
   extern task wait_for_error();
   extern function integer get_error_count();
   extern task give_up();
 
-  extern function bit fail(string c, logic b, string s, string f, int l, string d = "");
+  extern function bit fail(input string c, input logic b, input string s, input string f, input int l, input string d = "");
 
   extern function void start();
   extern function void stop();
@@ -69,13 +69,14 @@ class svunit_testcase extends svunit_base;
   extern virtual task teardown();
 
 
-  function void add_junit_test_case(string name);
+  function void add_junit_test_case(input string name);
     current_junit_test_case = new(name, get_name());
     junit_test_cases.push_back(current_junit_test_case);
   endfunction
 
 
-  /* local */ typedef junit_xml::TestCase array_of_junit_test_cases[];
+  // This needs to be declared as a dynamic array[$] (not a static array[] with a fixed length)
+  /* local */ typedef junit_xml::TestCase array_of_junit_test_cases[$];
 
   function array_of_junit_test_cases as_junit_test_cases();
     return junit_test_cases;
@@ -92,7 +93,7 @@ endclass
     name - instance name of the test case
 
 */
-function svunit_testcase::new(string name);
+function svunit_testcase::new(input string name);
   super.new(name);
 endfunction
 
@@ -145,7 +146,7 @@ endtask
 
     return 1 if fail else 0
 */
-function bit svunit_testcase::fail(string c, logic b, string s, string f, int l, string d = "");
+function bit svunit_testcase::fail(input string c, input logic b, input string s, input string f, input int l, input string d = "");
   string _d;
   if (b !== 0) begin
     error_count++;

@@ -23,17 +23,17 @@ class XmlElement;
   local XmlElement children[$];
 
 
-  function new(string tag);
+  function new(input string tag);
     this.tag = tag;
   endfunction
 
 
-  function void set_attribute(string name, string value);
+  function void set_attribute(input string name, input string value);
     attributes[name] = value;
   endfunction
 
 
-  function void add_child(XmlElement child);
+  function void add_child(input XmlElement child);
     children.push_back(child);
   endfunction
 
@@ -43,7 +43,7 @@ class XmlElement;
   endfunction
 
 
-  local function string as_string_with_indent(string indent);
+  local function string as_string_with_indent(input string indent);
     string result;
     result = $sformatf("%s<%s>", indent, get_start_tag_contents());
     foreach (children[i]) begin

@@ -25,7 +25,7 @@ class filter_for_single_pattern;
   local const string test;
 
 
-  function new(string pattern);
+  function new(input string pattern);
     int unsigned dot_idx = get_dot_idx(pattern);
 
     testcase = pattern.substr(0, dot_idx-1);
@@ -36,38 +36,38 @@ class filter_for_single_pattern;
   endfunction
 
 
-  local function int unsigned get_dot_idx(string pattern);
+  local function int unsigned get_dot_idx(input string pattern);
     int unsigned first_dot_idx = get_first_dot_idx(pattern);
     ensure_no_more_dots(pattern, first_dot_idx);
     return first_dot_idx;
   endfunction
 
 
-  local function int unsigned get_first_dot_idx(string pattern);
+  local function int unsigned get_first_dot_idx(input string pattern);
     for (int i = 0; i < pattern.len(); i++)
       if (pattern[i] == ".")
         return i;
-    `__svunit_fatal(error_msg);
+    __svunit_fatal(error_msg);
   endfunction
 
 
-  local function void ensure_no_more_dots(string pattern, int unsigned first_dot_idx);
+  local function void ensure_no_more_dots(input string pattern, input int unsigned first_dot_idx);
     for (int i = first_dot_idx+1; i < pattern.len(); i++)
       if (pattern[i] == ".")
-        `__svunit_fatal(error_msg);
+        __svunit_fatal(error_msg);
   endfunction
 
 
-  local function void disallow_partial_wildcards(string field_name, string field_value);
+  local function void disallow_partial_wildcards(input string field_name, input string field_value);
     if (field_value != "*")
       if (str_contains_char(field_value, "*"))
-        `__svunit_fatal($sformatf("Partial wildcards in %s names aren't currently supported", field_name));
+        __svunit_fatal($sformatf("Partial wildcards in %s names aren't currently supported", field_name));
   endfunction
 
 
-  local static function bit str_contains_char(string s, string c);
+  local static function bit str_contains_char(input string s, input string c);
     if (c.len() != 1)
-      `__svunit_fatal("Expected a single character");
+      __svunit_fatal("Expected a single character");
     foreach (s[i])
       if (s[i] == c[0])
         return 1;
@@ -75,14 +75,14 @@ class filter_for_single_pattern;
   endfunction
 
 
-  virtual function bit is_selected(svunit_testcase tc, string test_name);
+  virtual function bit is_selected(input svunit_testcase tc, input string test_name);
     if (is_match(this.testcase, tc.get_name()) && is_match(this.test, test_name))
       return 1;
     return 0;
   endfunction
 
 
-  local function bit is_match(string filter_val, string val);
+  local function bit is_match(input string filter_val, input string val);
     return (filter_val == "*") || (filter_val == val);
   endfunction
 

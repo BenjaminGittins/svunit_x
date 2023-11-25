@@ -14,17 +14,22 @@ package svunit;
 
   task automatic run_all_tests();
     svunit_testrunner svunit_tr = new("testrunner");
-    testsuite testsuites[] = global_test_registry::get().get_testsuites();
+
+    // This needs to be declared as a dynamic array[$] (not a static array[] with a fixed length)
+
+    testsuite testsuites[$] = global_test_registry::get().get_testsuites();
 
     foreach (testsuites[i])
       svunit_tr.add_testsuite(testsuites[i]);
 
     foreach (testsuites[i]) begin
-      testcase testcases[] = testsuites[i].get_testcases();
+      testcase testcases[$] = testsuites[i].get_testcases();
 
       testsuites[i].run();
+
       foreach (testcases[j])
         testcases[j].run();
+        
       testsuites[i].report();
     end
 

@@ -32,8 +32,8 @@ class svunit_testsuite extends svunit_base;
   /*
     Interface
   */
-  extern function new(string name);
-  extern function void add_testcase(svunit_testcase svunit);
+  extern function new(input string name);
+  extern function void add_testcase(input svunit_testcase svunit);
   extern task run();
 
   extern function void report();
@@ -51,9 +51,10 @@ class svunit_testsuite extends svunit_base;
   function junit_xml::TestSuite as_junit_test_suite();
     junit_xml::TestSuite result = new(get_name());
     foreach (list_of_testcases[i]) begin
-      junit_xml::TestCase junit_test_cases[] = list_of_testcases[i].as_junit_test_cases();
-      foreach (junit_test_cases[i])
-        result.add_test_case(junit_test_cases[i]);
+      // Why aren't we using the typedef form:   array_of_junit_test_cases ju_unit_test_cases[$]
+      junit_xml::TestCase junit_test_cases[$] = list_of_testcases[i].as_junit_test_cases(); 
+      foreach (junit_test_cases[j])  // Avoid variable shadowing by using j for second level index (instead of i)
+        result.add_test_case(junit_test_cases[j]);
     end
     return result;
   endfunction
@@ -68,7 +69,7 @@ endclass
   Parameters:
     name - instance name of the unit test suite
 */
-function svunit_testsuite::new(string name);
+function svunit_testsuite::new(input string name);
   super.new(name);
 endfunction
 
@@ -80,7 +81,7 @@ endfunction
   Parameters:
     svunit - unit test to add to the list of unit tests
 */
-function void svunit_testsuite::add_testcase(svunit_testcase svunit);
+function void svunit_testsuite::add_testcase(input svunit_testcase svunit);
   `INFO($sformatf("Registering Unit Test Case %s", svunit.get_name()));
   list_of_testcases.push_back(svunit);
 endfunction

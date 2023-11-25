@@ -1,6 +1,6 @@
 class testsuite extends svunit_testsuite;
 
-  typedef testcase array_of_testcase[];
+  typedef testcase array_of_testcase[$];
 
 
   function new(string name);
@@ -10,7 +10,9 @@ class testsuite extends svunit_testsuite;
 
   function void register(test::builder test_builder, string full_name);
     testcase tc;
-    string name_parts[] = string_utils::split_by_char(".", full_name);
+
+    // This needs to be declared as a dynamic array[$] (not a static array[] with a fixed length)
+    string name_parts[$] = string_utils::split_by_char(".", full_name);
     if (name_parts.size() != 2)
       $fatal(0, "Internal error");
 

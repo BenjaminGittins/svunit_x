@@ -19,9 +19,12 @@
 
 `define __svunit_stringify(s) `"s`"
 
-`define __svunit_fatal(s) \
+`define __svunit_fatal_d(s) \
   `ifndef XILINX_SIMULATOR \
     $fatal(0, s); \
   `else \
     $fatal(1, s); \
   `endif
+
+
+

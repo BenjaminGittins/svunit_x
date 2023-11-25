@@ -32,8 +32,8 @@ class svunit_testrunner extends svunit_base;
   /*
     Interface
   */
-  extern function new(string name);
-  extern function void add_testsuite(svunit_testsuite suite);
+  extern function new(input string name);
+  extern function void add_testsuite(input svunit_testsuite suite);
 
   extern function void report();
 
@@ -67,7 +67,7 @@ endclass
   Parameters:
     name - instance name of the unit test runner
 */
-function svunit_testrunner::new(string name);
+function svunit_testrunner::new(input string name);
   super.new(name);
 endfunction
 
@@ -79,7 +79,7 @@ endfunction
   Parameters:
     suite - test suite to add to the list of test suites
 */
-function void svunit_testrunner::add_testsuite(svunit_testsuite suite);
+function void svunit_testrunner::add_testsuite(input svunit_testsuite suite);
   `INFO($sformatf("Registering Test Suite %0s", suite.get_name()));
   list_of_suites.push_back(suite);
 endfunction

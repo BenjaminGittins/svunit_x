@@ -28,16 +28,17 @@ module string_utils_unit_test;
 
     `SVTEST(can_split_string_by_underscore)
       string some_string = "some_string";
-      string parts[] = string_utils::split_by_char("_", some_string);
-      string exp_parts[] = '{ "some", "string" };
+      // This needs to be declared as a dynamic array[$] (not a static array[] with a fixed length)
+      string parts[$] = string_utils::split_by_char("_", some_string);
+      string exp_parts[$] = '{ "some", "string" };
       `FAIL_UNLESS_EQUAL(parts, exp_parts)
     `SVTEST_END
 
 
     `SVTEST(split_string_by_underscore_does_nothing_when_no_underscore)
       string some_string = "string";
-      string parts[] = string_utils::split_by_char("_", some_string);
-      string exp_parts[] = '{ "string" };
+      string parts[$] = string_utils::split_by_char("_", some_string);
+      string exp_parts[$] = '{ "string" };
       `FAIL_UNLESS_EQUAL(parts, exp_parts)
     `SVTEST_END
 

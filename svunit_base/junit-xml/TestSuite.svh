@@ -28,7 +28,7 @@ class TestSuite;
   local TestCase test_cases[$];
 
 
-  function new(string name);
+  function new(input string name);
     this.name = name;
   endfunction
 
@@ -38,7 +38,7 @@ class TestSuite;
   endfunction
 
 
-  function void add_test_case(TestCase test_case);
+  function void add_test_case(input TestCase test_case);
     test_cases.push_back(test_case);
   endfunction
 
